@@ -22,6 +22,7 @@
     --cat-entertainment: #2e5c8a;
     --cat-sports: #2e7d52;
     --cat-local: #8a4a1a;
+    --cat-westloop: #7a1f6e;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -162,6 +163,8 @@
   .filter-btn.active.ent { background: var(--cat-entertainment); border-color: var(--cat-entertainment); }
   .filter-btn.active.sports { background: var(--cat-sports); border-color: var(--cat-sports); }
   .filter-btn.active.local { background: var(--cat-local); border-color: var(--cat-local); }
+  .filter-btn.active.westloop { background: var(--cat-westloop); border-color: var(--cat-westloop); }
+  .cat-westloop .category-badge { background: var(--cat-westloop); }
 
   .controls-right {
     margin-left: auto;
@@ -812,6 +815,7 @@
     <button class="filter-btn ent" onclick="filterCards('entertainment', this)">🎭 Entertainment</button>
     <button class="filter-btn sports" onclick="filterCards('sports', this)">⚽ Sports & Fitness</button>
     <button class="filter-btn local" onclick="filterCards('local', this)">📍 Little Italy / Near West Side</button>
+    <button class="filter-btn westloop" onclick="filterCards('westloop', this)">🏙️ West Loop / Chamber</button>
     <div class="controls-right">
       <span class="save-status" id="saveStatus">✓ Saved</span>
       <button class="save-btn" onclick="saveAll()">💾 Save All to Sheets</button>
@@ -829,9 +833,9 @@
       <div class="category-badge" style="background:var(--gold);"></div>
       <div class="category-title">📂 Project Documents</div>
       <div class="category-count">11 files</div>
-      <span id="docs-chevron" style="font-size:18px; color:var(--border); margin-left:12px; transition:transform 0.2s;">▾</span>
+      <span id="docs-chevron" style="font-size:18px; color:var(--navy); margin-left:12px; transition:transform 0.2s; transform:rotate(-90deg);">▾</span>
     </div>
-    <div class="docs-grid" id="docs-grid">
+    <div class="docs-grid collapsed" id="docs-grid">
 
       <a class="doc-card" href="Carroll_Project_Proposal__20250211T125840_027.pdf" target="_blank">
         <div class="doc-icon pdf">📄<span class="doc-type-badge">PDF</span></div>
@@ -1264,7 +1268,7 @@
     <div class="category-header">
       <div class="category-badge"></div>
       <div class="category-title">⚽ Sports, Fitness & Children's Activity Sponsors</div>
-      <div class="category-count">10 prospects</div>
+      <div class="category-count">11 prospects</div>
     </div>
     <div class="prospect-grid" id="grid-sports">
 
@@ -1558,6 +1562,35 @@
         </div>
       </div>
 
+      <div class="card" data-category="sports" data-id="chicago-fire-78">
+        <div class="card-top" onclick="toggleCard(this.parentElement)">
+          <div>
+            <div class="card-name-row"><span class="card-name">Chicago Fire FC — "The 78" Stadium Development</span></div>
+            <div class="card-location">South Loop · Related Midwest development · $750M, 22,000-seat open-air stadium · Breaks ground March 2026</div>
+            <div class="card-desc">The Chicago Fire's new $750M stadium at "The 78" — a 62-acre mixed-use development along the Chicago River between Roosevelt Road and Ping Tom Park — is designed to host soccer, concerts, and community events, positioning it as a new neighborhood centerpiece. The stadium's multi-use programming mission (live events, youth sports, community gatherings) directly parallels Galileo's auditorium vision at a neighborhood scale. Related Midwest and the Fire's community affairs team are the right entry points; the shared "space for the community" narrative makes this a compelling co-branding and sponsorship conversation.</div>
+          </div>
+          <div class="card-right">
+            <span class="ask-range">$10K–$50K</span>
+            <span class="chevron">▾</span>
+          </div>
+        </div>
+        <div class="card-form">
+          <div class="form-grid">
+            <div class="form-field"><label>Owner (FOG Team Member)</label><input type="text" placeholder="Assign to..."></div>
+            <div class="form-field"><label>Contact Name</label><input type="text" placeholder="Name at organization"></div>
+            <div class="form-field"><label>Contact Email</label><input type="email" placeholder="email@domain.com"></div>
+            <div class="form-field"><label>Contact Phone</label><input type="tel" placeholder="(312) 000-0000"></div>
+            <div class="form-field full"><label>Notes</label><textarea placeholder="Contact: Chicago Fire FC Community Affairs + Related Midwest community relations. Stadium opening expected before 2028 MLS season. Website: chicagofirefc.com"></textarea></div>
+          </div>
+          <div class="status-row">
+            <label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Status:</label>
+            <select class="status-select s-new" onchange="updateStatus(this)">
+              <option value="s-new">🔘 New</option><option value="s-contacted">📧 Contacted</option><option value="s-meeting">📅 Meeting Scheduled</option><option value="s-proposal">📄 Proposal Sent</option><option value="s-committed">✅ Committed</option><option value="s-declined">❌ Declined</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /grid-sports -->
   </div>
 
@@ -1810,6 +1843,28 @@
     </div><!-- /grid-local -->
   </div>
 
+  <!-- ═══════════════════════════════════════════════
+       CATEGORY 4: WEST LOOP / CHAMBER
+  ════════════════════════════════════════════════ -->
+  <div class="category-section cat-westloop" data-category="westloop">
+    <div class="category-header">
+      <div class="category-badge"></div>
+      <div class="category-title">🏙️ West Loop Chamber of Commerce</div>
+      <div class="category-count">0 prospects</div>
+    </div>
+    <div class="prospect-grid" id="grid-westloop">
+
+      <div class="card" style="background: linear-gradient(to right, #fdf8ff, white); border: 1.5px dashed #c8a0d0; border-radius:10px; padding: 24px 24px; display:flex; align-items:center; gap:18px;">
+        <div style="font-size:28px;">🏙️</div>
+        <div>
+          <div style="font-family:'Playfair Display',serif; font-size:15px; font-weight:600; color:var(--navy); margin-bottom:6px;">West Loop / Chamber prospects coming soon</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.55;">Use the <strong>+ Add a New Prospect</strong> button below and select <em>West Loop / Chamber</em> as the category to add prospects here.</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-westloop -->
+  </div>
+
   <!-- ADD PROSPECT BUTTON -->
   <button class="add-prospect-btn" onclick="openAddModal()">
     <span class="plus-icon">+</span>
@@ -1853,6 +1908,7 @@
             <option value="entertainment">🎭 Entertainment</option>
             <option value="sports">⚽ Sports & Fitness</option>
             <option value="local">📍 Little Italy / Near West Side</option>
+            <option value="westloop">🏙️ West Loop / Chamber</option>
           </select>
         </div>
         <div class="modal-field">
