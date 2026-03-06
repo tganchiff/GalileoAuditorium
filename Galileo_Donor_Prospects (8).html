@@ -214,6 +214,38 @@
     margin-bottom: 20px;
     padding-bottom: 14px;
     border-bottom: 2px solid var(--stone);
+    cursor: pointer;
+    user-select: none;
+  }
+  .category-header:hover .category-title { color: #2a3d6b; }
+  .section-chevron {
+    font-size: 18px;
+    color: var(--border);
+    margin-left: auto;
+    transition: transform 0.2s, color 0.15s;
+    flex-shrink: 0;
+  }
+  .prospect-grid {
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  .prospect-grid.open {
+    max-height: 99999px;
+    opacity: 1;
+    margin-bottom: 48px;
+  }
+  .category-section.expanded .section-chevron {
+    transform: rotate(0deg);
+    color: var(--navy);
+  }
+  .category-section:not(.expanded) .section-chevron {
+    transform: rotate(-90deg);
+  }
+  .category-section {
+    margin-bottom: 0;
   }
   .category-badge {
     width: 10px;
@@ -951,10 +983,11 @@
        CATEGORY 1: ENTERTAINMENT
   ════════════════════════════════════════════════ -->
   <div class="category-section cat-ent" data-category="entertainment">
-    <div class="category-header">
+    <div class="category-header" onclick="toggleSection(this.closest('.category-section'))">
       <div class="category-badge"></div>
       <div class="category-title">🎭 Entertainment & Performance Space Sponsors</div>
       <div class="category-count">10 prospects</div>
+      <span class="section-chevron">▾</span>
     </div>
     <div class="prospect-grid" id="grid-entertainment">
 
@@ -1265,10 +1298,11 @@
        CATEGORY 2: SPORTS & FITNESS
   ════════════════════════════════════════════════ -->
   <div class="category-section cat-sports" data-category="sports">
-    <div class="category-header">
+    <div class="category-header" onclick="toggleSection(this.closest('.category-section'))">
       <div class="category-badge"></div>
       <div class="category-title">⚽ Sports, Fitness & Children's Activity Sponsors</div>
       <div class="category-count">11 prospects</div>
+      <span class="section-chevron">▾</span>
     </div>
     <div class="prospect-grid" id="grid-sports">
 
@@ -1598,10 +1632,11 @@
        CATEGORY 3: LITTLE ITALY / NEAR WEST SIDE
   ════════════════════════════════════════════════ -->
   <div class="category-section cat-local" data-category="local">
-    <div class="category-header">
+    <div class="category-header" onclick="toggleSection(this.closest('.category-section'))">
       <div class="category-badge"></div>
       <div class="category-title">📍 Little Italy &amp; Near West Side Neighbors</div>
       <div class="category-count">8 prospects</div>
+      <span class="section-chevron">▾</span>
     </div>
     <div class="prospect-grid" id="grid-local">
 
@@ -1847,10 +1882,11 @@
        CATEGORY 4: WEST LOOP / CHAMBER
   ════════════════════════════════════════════════ -->
   <div class="category-section cat-westloop" data-category="westloop">
-    <div class="category-header">
+    <div class="category-header" onclick="toggleSection(this.closest('.category-section'))">
       <div class="category-badge"></div>
       <div class="category-title">🏙️ West Loop Chamber of Commerce</div>
       <div class="category-count">0 prospects</div>
+      <span class="section-chevron">▾</span>
     </div>
     <div class="prospect-grid" id="grid-westloop">
 
@@ -1971,6 +2007,17 @@
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1soiPFOI0SZEkV6G6t8BoeDsVqSx9-1Cd0-_vIxXwyq83p1riAk3S4hUxCA2WijHKOA/exec';
   const COLS = ['id','owner','contact_name','contact_email','contact_phone','notes','status','prospect_name','prospect_location','prospect_desc','prospect_ask','prospect_category','is_custom'];
 
+  // ── TOGGLE SECTION ──
+  function toggleSection(section) {
+    const grid = section.querySelector('.prospect-grid');
+    const isExpanded = section.classList.toggle('expanded');
+    if (isExpanded) {
+      grid.classList.add('open');
+    } else {
+      grid.classList.remove('open');
+    }
+  }
+
   // ── TOGGLE DOCS SECTION ──
   function toggleDocs() {
     const grid = document.getElementById('docs-grid');
@@ -2001,6 +2048,9 @@
     document.querySelectorAll('.category-section[data-category]').forEach(section => {
       if (cat === 'all' || section.dataset.category === cat) {
         section.style.display = '';
+        // Auto-expand the matching section
+        section.classList.add('expanded');
+        section.querySelector('.prospect-grid')?.classList.add('open');
       } else {
         section.style.display = 'none';
       }
